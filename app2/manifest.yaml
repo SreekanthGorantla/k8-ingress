@@ -1,32 +1,32 @@
 apiVersion: v1
 kind: Deployment
 metadata:
-  name: app1
+  name: app2
   labels:
-    app: app1
+    app: app2
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: app1
+      app: app2
   template:
     metadata:
       labels:
-        app: app1
+        app: app2
     spec:
       containers:
-      - name: app1
-        image: sreekanthgorantla/app1:1.0.0
+      - name: app2
+        image: sreekanthgorantla/app2:1.0.0
         ports:
         - containerPort: 80
 ---
 kind: Service
 apiVersion: v1
 metadata:
-  name: app1
+  name: app2
 spec:
   selector:
-    app: app1
+    app: app2
   ports:
   - protocol: TCP
     port: 80
@@ -35,7 +35,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: app1
+  name: app2
   annotations:
     nginx.ingress.kubernetes.io/scheme: internet-facing
     nginx.ingress.kubernetes.io/scheme: ip
@@ -45,13 +45,13 @@ metadata:
 spec:
   ingressClassName: alb
   rules:
-  - host: "app1.sreeaws.space"
+  - host: "app2.sreeaws.space"
     http:
       paths:
       - pathType: Prefix
         path: "/"
         backend:
           service:
-            name: app1
+            name: app2
             port:
               number: 80
